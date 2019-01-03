@@ -1,0 +1,33 @@
+
+<table mat-table [dataSource]="avto_data" class="mat-elevation-z8">
+
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- Position Column -->
+ 
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="avto">
+    <th mat-header-cell *matHeaderCellDef> Avto </th>
+    <td mat-cell *matCellDef="let element;let i = index;" [ngClass]="{'dobro' : element.regdo  > zdaj || avto_data[i].seen==1  , 'slabo' : element.regdo < zdaj && avto_data[i].seen==0 }" > {{element.avto}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="regst">
+    <th mat-header-cell *matHeaderCellDef> Registrska številka </th>
+    <td mat-cell *matCellDef="let element;let i = index;" [ngClass]="{'dobro' : element.regdo  > zdaj || avto_data[i].seen==1  , 'slabo' : element.regdo < zdaj && avto_data[i].seen==0 }" > {{element.regst}} </td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="regdo">
+    <th mat-header-cell *matHeaderCellDef>Registracija veljavna do </th>
+    <td mat-cell *matCellDef="let element;let i = index;" [ngClass]="{'dobro' : element.regdo  > zdaj || avto_data[i].seen==1  , 'slabo' : element.regdo < zdaj && avto_data[i].seen==0 }"> {{element.regdo | date:longDate}} </td>
+  </ng-container>
+  
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row  *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+{{zdaj | date:longDate}}
+{{avto_data}}
