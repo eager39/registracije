@@ -46,6 +46,17 @@ transporter.sendMail(mailOptions, function(error, info){
   }
 }); 
 */
+app.get('/avto_edit', function(req, res) {
+ 
+var sql='SELECT id,avto,regst, FROM_UNIXTIME(regdo/1000,"%Y-%m-%d") as regdo,seen,opombe FROM avto WHERE id=?';
+  connection.query(sql,req.query.id, function(err, results) {
+    if (err) throw err
+    var data = results;
+    console.log(data);
+    res.send(JSON.stringify(data));
+  });
+
+});
 
 
 app.get('/data', function(req, res) {
@@ -91,12 +102,24 @@ transporter.sendMail({
 
 
 app.post('/dodaj', function(req, res) {
-  console.log(req.body);
+ if(req.body.id){
+   data=req.body;
+   console.log(data.regst);
+  var sql2 = "UPDATE avto set avto=?,regst=?,regdo=UNIX_TIMESTAMP(?)*1000,opombe=? WHERE id=?";
+  connection.query(sql2, [data.avto,data.stevilka,data.datum,data.opombe, data.id], function (err, result) {
+    if(!err){
+      res.send(true);
+    }else{
+      res.send(false);
+    }
+    
+  });
+ }else{
   
-     var sql='INSERT INTO avto (avto,regst,regdo) VALUES (?,?,UNIX_TIMESTAMP(?)*1000)';
+     var sql='INSERT INTO avto (avto,regst,regdo,opombe) VALUES (?,?,UNIX_TIMESTAMP(?)*1000,?)';
   
   console.log(req.body.avto);
-     connection.query(sql,[req.body.avto,req.body.stevilka,req.body.datum], function(err, results) {
+     connection.query(sql,[req.body.avto,req.body.stevilka,req.body.datum.req.body.opombe], function(err, results) {
        if(!err){
          res.send(true);
        }else{
@@ -107,7 +130,7 @@ app.post('/dodaj', function(req, res) {
       });
    
      
-  
+    }
   
 });
 
