@@ -9,3 +9,8 @@ table {
   .slabo{
       background-color: rgba(255, 146, 146, 0.993);
   }
+  .example-container {
+    display: flex;
+    flex-direction: column;
+    
+  }

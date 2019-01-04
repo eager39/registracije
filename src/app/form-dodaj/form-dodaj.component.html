@@ -1,0 +1,27 @@
+<form [formGroup]="registracije" (ngSubmit)="onSubmit()">
+<div class="example-container">
+  <mat-form-field>
+    <input matInput  formControlName="avto" placeholder="avto">
+  </mat-form-field>
+
+  <mat-form-field>
+      <input matInput  formControlName="stevilka" placeholder="Registrska številka">
+  </mat-form-field>
+
+  <mat-form-field>
+      <input matInput formControlName="datum" [matDatepicker]="picker" placeholder="Konec registracije">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    
+    <mat-form-field class="opombe">
+        <textarea formControlName="opombe" matInput placeholder="Opombe"></textarea>
+      </mat-form-field>
+
+      
+    <button mat-raised-button type="submit" [disabled]="!registracije.valid">Vnesi</button>
+
+   
+  
+</div>
+</form>
