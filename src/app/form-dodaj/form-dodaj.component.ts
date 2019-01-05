@@ -50,8 +50,8 @@ export class FormDodajComponent implements OnInit {
     var form=this.registracije.value; console.log(form);
     if(form.avto!="" && form.stevilka&&  form.datum!=""){
      var datum=new Date(form.datum);
-     datum=new Date( datum.getTime() + Math.abs(datum.getTimezoneOffset()*60000) );
-    alert(JSON.stringify(this.registracije.value.datum));
+    datum.setMinutes( datum.getMinutes() - datum.getTimezoneOffset()+60 );
+    
     this.http.post("http://localhost:3000/dodaj",
     {
         "avto": this.registracije.value.avto,

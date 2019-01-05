@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 
-var transporter = nodemailer.createTransport("smtps://dobermailzlo%40gmail.com:"+encodeURIComponent('') + "@smtp.gmail.com:465");
+var transporter = nodemailer.createTransport("smtps://dobermailzlo%40gmail.com:"+encodeURIComponent('Krizanic1!') + "@smtp.gmail.com:465");
 
 var mailOptions = {
   from: 'youremail@gmail.com',
@@ -60,7 +60,10 @@ var sql='SELECT id,avto,regst, FROM_UNIXTIME(regdo/1000,"%Y-%m-%d") as regdo,see
 
 app.get('/mail', function(req, res) {
   var start = new Date();
-  var end  = start.setDate(start.getDay()+3);
+  var today = new Date(Date.UTC(start.getUTCFullYear(), start.getUTCMonth(), start.getUTCDate(),start.getTimezoneOffset()+60 ));
+  var end  = today.setDate(today.getDay()+3);
+ 
+ 
   console.log(end,"asd");
       connection.query('SELECT id,avto,regst,regdo,seen,opombe FROM avto', function(err, results) {
         if (err) throw err
@@ -69,20 +72,24 @@ app.get('/mail', function(req, res) {
         var length = Object.keys(results).length;
         var posta={};
   for(var i=0;i<length;i++){
-     console.log(results[i].regdo,"vs",end);
-    if(results[i].regdo >end){
      
-     posta[i]= results[i];
+    if(results[i].regdo <=end){
+     if(i==0){
+      posta=results[i].regst+", ";
+     }else{
+       posta+=results[i].regst+", ";
+     }
      
     }
    
-  }
-  console.log(posta,"haha");/*
+   
+  } 
+  console.log(posta);
   transporter.sendMail({       
     sender: 'sender@sender.com',
     to: 'zan_strong@hotmail.com',
     subject: 'Attachment!',
-    text: JSON.stringify(results),
+    text: "Potečejo naslednje registracijske številke: "+ posta,
    // attachments: [{'filename': 'attachment.txt', 'content': data}]
   }), function(err, success) {
     if (err) {
@@ -91,10 +98,10 @@ app.get('/mail', function(req, res) {
   
   }
   
-        */  
+        
          
         
-        res.send(JSON.stringify(posta));
+       // res.send(JSON.stringify(posta));
       });
     }, err => {
       console.log("No such user. Error: " + err);
@@ -113,7 +120,7 @@ var end  = start.setMonth(start.getDay()+3);
 for(var i=0;i<length;i++){
   if(results[i].regdo >end){
    posta[i]= results[i];
-   
+   console.log("wtf");
   }
  
 }
