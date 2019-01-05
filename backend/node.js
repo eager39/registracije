@@ -70,21 +70,26 @@ app.get('/mail', function(req, res) {
         var data = results;
         console.log(data);
         var length = Object.keys(results).length;
-        var posta={};
+        var posta="";
   for(var i=0;i<length;i++){
      
-    if(results[i].regdo <=end){
-     if(i==0){
-      posta=results[i].regst+", ";
-     }else{
+    if(results[i].regdo==end){
+      console.log(posta);
+    if(posta!=""){
        posta+=results[i].regst+", ";
-     }
+    }else{
+      posta=results[i].regst+", ";
+    }
+     
+     
+     
+  
      
     }
    
    
   } 
-  console.log(posta);
+  console.log(posta);/*
   transporter.sendMail({       
     sender: 'sender@sender.com',
     to: 'zan_strong@hotmail.com',
@@ -97,8 +102,7 @@ app.get('/mail', function(req, res) {
     }
   
   }
-  
-        
+*/        
          
         
        // res.send(JSON.stringify(posta));
