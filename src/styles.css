@@ -4,13 +4,21 @@ table {
     width: 100%;
   }
   .dobro{
-      background-color: rgb(3, 247, 3);
+      background-color: #2ECC40;
   }
   .slabo{
-      background-color: rgba(255, 146, 146, 0.993);
+      background-color: #FF4136;
   }
+  .videno{
+    background-color: rgb(255, 229, 61);
+}
   .example-container {
     display: flex;
     flex-direction: column;
+    width: 50%;
+    margin: auto;
     
+  }
+  nav{
+      margin: auto;
   }

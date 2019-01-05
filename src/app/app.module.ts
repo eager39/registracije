@@ -11,6 +11,8 @@ import {MatButtonModule} from '@angular/material/button';
 import { FormsModule }   from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatMenuModule} from '@angular/material/menu';
+import { MatPaginatorModule } from '@angular/material';
+import {MatSortModule} from '@angular/material/sort';
 
 
 
@@ -25,7 +27,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     HomeComponent,
     FormDodajComponent
   ],
-  imports: [BrowserModule,FormsModule,ReactiveFormsModule,MatButtonModule,MatMenuModule,NoopAnimationsModule,HttpClientModule,MatTableModule,MatDatepickerModule,MatFormFieldModule,MatNativeDateModule,MatInputModule, RouterModule.forRoot([
+  imports: [BrowserModule,FormsModule,ReactiveFormsModule,MatButtonModule,MatSortModule,MatPaginatorModule,MatMenuModule,NoopAnimationsModule,HttpClientModule,MatTableModule,MatDatepickerModule,MatFormFieldModule,MatNativeDateModule,MatInputModule, RouterModule.forRoot([
     {
        path: 'home',
        component: HomeComponent

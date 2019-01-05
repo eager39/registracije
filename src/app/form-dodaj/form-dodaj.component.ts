@@ -46,14 +46,19 @@ export class FormDodajComponent implements OnInit {
   }
   }
   onSubmit(){
-    alert(JSON.stringify(this.registracije.value));
+   
+    var form=this.registracije.value; console.log(form);
+    if(form.avto!="" && form.stevilka&&  form.datum!=""){
+     var datum=new Date(form.datum);
+     datum=new Date( datum.getTime() + Math.abs(datum.getTimezoneOffset()*60000) );
+    alert(JSON.stringify(this.registracije.value.datum));
     this.http.post("http://localhost:3000/dodaj",
     {
         "avto": this.registracije.value.avto,
 
         "stevilka": this.registracije.value.stevilka,
 
-        "datum": this.registracije.value.datum,
+        "datum": datum,
         
         "opombe": this.registracije.value.opombe,
 
@@ -71,6 +76,7 @@ export class FormDodajComponent implements OnInit {
             console.log("The POST observable is now completed.");
         });
   }
+}
   
 
 

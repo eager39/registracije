@@ -1,43 +1,44 @@
-
-<table id="pdf" mat-table [dataSource]="avto_data" class="mat-elevation-z8">
-
-  <!--- Note that these columns can be defined in any order.
-        The actual rendered columns are set as a property on the row definition" -->
-
-  <!-- Position Column -->
- 
+<h3>Legenda:</h3>
+<button style="background-Color:#FF4136">Registracija je potekla</button>
+<button style="background-Color:#2ECC40">Registracija se ni potekla</button>
+<button style="background-Color:rgb(255, 229, 61)">Potekla registracija je bila videna</button>
+<table id="pdf" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
   <!-- Name Column -->
   <ng-container matColumnDef="avto">
-    <th mat-header-cell *matHeaderCellDef> Avto </th>
-    <td mat-cell *matCellDef="let element;let i = index;" [ngClass]="{'dobro' : element.regdo  > zdaj || avto_data[i].seen==1  , 'slabo' : element.regdo < zdaj && avto_data[i].seen==0 }" > {{element.avto}} </td>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Avto </th>
+    <td mat-cell *matCellDef="let element;let i = index;" [ngClass]="{'dobro' : element.regdo  > zdaj  , 'slabo' : element.regdo < zdaj && element.seen==0 ,'videno': element.seen==1}" > {{element.avto}} </td>
   </ng-container>
 
   <!-- Weight Column -->
   <ng-container matColumnDef="regst">
     <th mat-header-cell *matHeaderCellDef> Registrska številka </th>
-    <td mat-cell *matCellDef="let element;let i = index;" [ngClass]="{'dobro' : element.regdo  > zdaj || avto_data[i].seen==1  , 'slabo' : element.regdo < zdaj && avto_data[i].seen==0 }" > {{element.regst}} </td>
+    <td mat-cell *matCellDef="let element;let i = index;" [ngClass]="{'dobro' : element.regdo  > zdaj  , 'slabo' : element.regdo < zdaj && element.seen==0,'videno': element.seen==1 }" > {{element.regst}} </td>
   </ng-container>
 
   <!-- Symbol Column -->
   <ng-container matColumnDef="regdo">
-    <th mat-header-cell *matHeaderCellDef>Registracija veljavna do </th>
-    <td mat-cell *matCellDef="let element;let i = index;" [ngClass]="{'dobro' : element.regdo  > zdaj || avto_data[i].seen==1  , 'slabo' : element.regdo < zdaj && avto_data[i].seen==0 }"> {{element.regdo | date:longDate}} </td>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Registracija veljavna do </th>
+    <td mat-cell *matCellDef="let element;let i = index;" [ngClass]="{'dobro' : element.regdo  > zdaj  , 'slabo' : element.regdo < zdaj && element.seen==0,'videno': element.seen==1 }"> {{element.regdo | date:longDate}} </td>
   </ng-container>
   <ng-container matColumnDef="opombe">
       <th mat-header-cell *matHeaderCellDef>Opombe </th>
-      <td mat-cell *matCellDef="let element;let i = index;" [ngClass]="{'dobro' : element.regdo  > zdaj || avto_data[i].seen==1  , 'slabo' : element.regdo < zdaj && avto_data[i].seen==0 }">{{element.opombe}}</td>
+      <td mat-cell *matCellDef="let element;let i = index;" [ngClass]="{'dobro' : element.regdo  > zdaj  , 'slabo' : element.regdo < zdaj && element.seen==0,'videno': element.seen==1 }">{{element.opombe}}</td>
     </ng-container>
 
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef>Uredi </th>
-    <td mat-cell *matCellDef="let element;let i = index;" [ngClass]="{'dobro' : element.regdo  > zdaj || avto_data[i].seen==1  , 'slabo' : element.regdo < zdaj && avto_data[i].seen==0 }" >  <button md-raised-button (click)="markAsSeen(element.regst)" >videno</button><button md-raised-button [routerLink]="['/dodaj', element.id]"  >Uredi</button> </td>
+    <td mat-cell *matCellDef="let element;let i = index;" [ngClass]="{'dobro' : element.regdo  > zdaj  , 'slabo' : element.regdo < zdaj && element.seen==0 ,'videno': element.seen==1}" >  <button md-raised-button (click)="markAsSeen(element.id)" >videno</button><button md-raised-button [routerLink]="['/dodaj', element.id]"  >Uredi</button> </td>
   </ng-container>
   
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row  *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
-<div>  
+<mat-paginator [pageSizeOptions]="[5, 10, 20,fullpage]" showFirstLastButtons></mat-paginator>
+<div>   
   <input type="button" value="Izvozi sliko v pdf" (click)="captureScreen()"/>  
 </div>  
+
+
+
