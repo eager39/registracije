@@ -59,37 +59,35 @@ var sql='SELECT id,avto,regst, FROM_UNIXTIME(regdo/1000,"%Y-%m-%d") as regdo,see
 });
 
 app.get('/mail', function(req, res) {
-  var start = new Date();
-  var today = new Date(Date.UTC(start.getUTCFullYear(), start.getUTCMonth(), start.getUTCDate(),start.getTimezoneOffset()+60 ));
-  var end  = today.setDate(today.getDay()+3);
+  var today = new Date();
+  today.setHours(12);
+  today.setTime( today.getTime() + today.getTimezoneOffset()*60*1000 );
+    today.setMinutes(0);
+    today.setSeconds(0);
+    today.setMilliseconds(0);
+  var end  = today.setDate(today.getDate()+3);
  
- 
-  console.log(end,"asd");
       connection.query('SELECT id,avto,regst,regdo,seen,opombe FROM avto', function(err, results) {
         if (err) throw err
         var data = results;
-        console.log(data);
-        var length = Object.keys(results).length;
+        var length = Object.keys(data).length;
         var posta="";
   for(var i=0;i<length;i++){
      
-    if(results[i].regdo==end){
-      console.log(posta);
+    if(data[i].regdo<=end && data[i].seen==0){
+     
     if(posta!=""){
-       posta+=results[i].regst+", ";
+       posta+=data[i].regst+", ";
     }else{
-      posta=results[i].regst+", ";
+      posta=data[i].regst+", ";
     }
-     
-     
-     
-  
      
     }
    
    
   } 
-  console.log(posta);/*
+  console.log(posta);
+  /*
   transporter.sendMail({       
     sender: 'sender@sender.com',
     to: 'zan_strong@hotmail.com',

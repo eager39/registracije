@@ -4,6 +4,7 @@ import * as jspdf from 'jspdf';
 import html2canvas from 'html2canvas';  
 import {MatPaginator, MatTableDataSource} from '@angular/material';
 import { MatSort } from '@angular/material/sort'; 
+import { environment } from '../../environments/environment';
 
 
 
@@ -17,7 +18,8 @@ import { MatSort } from '@angular/material/sort';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  renderedData: any;
+  baseUrl = environment.baseUrl;
+ 
   constructor(private http: HttpClient) {
 
 
@@ -36,7 +38,7 @@ export class HomeComponent implements OnInit {
   displayedColumns = ['avto', "regst", "regdo","opombe","actions"];
  
   getTours(){
-   this.http.get("http://localhost:3000/data").subscribe((
+   this.http.get(this.baseUrl+"data").subscribe((
       data:any
     ) => {
       this.zdaj= new Date()
@@ -72,7 +74,7 @@ export class HomeComponent implements OnInit {
   }  
 
   markAsSeen(id){
-    this.http.post("http://localhost:3000/seen",
+    this.http.post(this.baseUrl+"seen",
     {
         "id":id
     })

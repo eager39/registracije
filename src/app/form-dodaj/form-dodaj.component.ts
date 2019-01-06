@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { HttpClient,HttpParams } from '@angular/common/http'; 
 import { ActivatedRoute, ActivationEnd } from '@angular/router';
 import { routerNgProbeToken } from '@angular/router/src/router_module';
+import { environment } from '../../environments/environment';
 
 
 @Component({
@@ -11,6 +12,7 @@ import { routerNgProbeToken } from '@angular/router/src/router_module';
   styleUrls: ['./form-dodaj.component.css']
 })
 export class FormDodajComponent implements OnInit {
+  baseUrl = environment.baseUrl;
   id;
   private sub: any;
   avto_edit_data;
@@ -29,7 +31,7 @@ export class FormDodajComponent implements OnInit {
       this.id = +params['id'];
   
       if(this.id){
-         this.http.get("http://localhost:3000/avto_edit",{params: new HttpParams().set("id", this.id)}).subscribe((
+         this.http.get(this.baseUrl+"avto_edit",{params: new HttpParams().set("id", this.id)}).subscribe((
           data:any
         ) => {
           
@@ -50,9 +52,14 @@ export class FormDodajComponent implements OnInit {
     var form=this.registracije.value; console.log(form);
     if(form.avto!="" && form.stevilka&&  form.datum!=""){
      var datum=new Date(form.datum);
-    datum.setMinutes( datum.getMinutes() - datum.getTimezoneOffset()+60 );
+     alert(datum);
+    //datum.setMinutes( datum.getMinutes() + datum.getTimezoneOffset()+60 );
+    datum.setHours(12);
+    datum.setMinutes(0);
+    datum.setSeconds(0);
+    datum.setMilliseconds(0);
     
-    this.http.post("http://localhost:3000/dodaj",
+    this.http.post(this.baseUrl+"dodaj",
     {
         "avto": this.registracije.value.avto,
 
