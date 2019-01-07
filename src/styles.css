@@ -7,10 +7,13 @@ table {
       background-color: #2ECC40;
   }
   .slabo{
-      background-color: #FF4136;
+      background-color: rgb(255, 119, 29);
   }
   .videno{
-    background-color: rgb(255, 229, 61);
+    background-color: rgb(255, 229, 61) !important;
+}
+.poteklo{
+    background-color: #FF4136;
 }
   .example-container {
     display: flex;

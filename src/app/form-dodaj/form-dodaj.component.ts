@@ -4,6 +4,7 @@ import { HttpClient,HttpParams } from '@angular/common/http';
 import { ActivatedRoute, ActivationEnd } from '@angular/router';
 import { routerNgProbeToken } from '@angular/router/src/router_module';
 import { environment } from '../../environments/environment';
+import { Alert } from 'selenium-webdriver';
 
 
 @Component({
@@ -14,8 +15,10 @@ import { environment } from '../../environments/environment';
 export class FormDodajComponent implements OnInit {
   baseUrl = environment.baseUrl;
   id;
+  delete;
   private sub: any;
   avto_edit_data;
+  uspeh;
 
   constructor(private http: HttpClient,private route: ActivatedRoute) { }
   registracije = new FormGroup({
@@ -24,11 +27,17 @@ export class FormDodajComponent implements OnInit {
     datum: new FormControl(''),
     opombe: new FormControl(""),
     id:new FormControl(""),
+    gume:new FormControl("")
   });
   ngOnInit() {
     if(this.route.params){
     this.sub = this.route.params.subscribe(params => {
-      this.id = +params['id'];
+      this.id = params['id'];
+      this.delete=params["delete"];
+    
+      if(this.delete!=undefined){
+        alert("zbrisano");
+      }
   
       if(this.id){
          this.http.get(this.baseUrl+"avto_edit",{params: new HttpParams().set("id", this.id)}).subscribe((
@@ -41,6 +50,7 @@ export class FormDodajComponent implements OnInit {
        this.registracije.controls["stevilka"].setValue(this.avto_edit_data[0].regst);
        this.registracije.controls["datum"].setValue(this.avto_edit_data[0].regdo);
        this.registracije.controls["opombe"].setValue(this.avto_edit_data[0].opombe);
+       this.registracije.controls["gume"].setValue(this.avto_edit_data[0].gume)
         });
       
       }
@@ -52,7 +62,7 @@ export class FormDodajComponent implements OnInit {
     var form=this.registracije.value; console.log(form);
     if(form.avto!="" && form.stevilka&&  form.datum!=""){
      var datum=new Date(form.datum);
-     alert(datum);
+     
     //datum.setMinutes( datum.getMinutes() + datum.getTimezoneOffset()+60 );
     datum.setHours(12);
     datum.setMinutes(0);
@@ -68,11 +78,18 @@ export class FormDodajComponent implements OnInit {
         "datum": datum,
         
         "opombe": this.registracije.value.opombe,
+        
+        "gume":this.registracije.value.gume,
 
         "id":this.registracije.value.id
     })
     .subscribe(
         (val) => {
+          
+          if(val){
+                    this.uspeh="Avto je bil uspešno vnešen!";
+          }
+  
             console.log("POST call successful value returned in body", 
                         val);
         },

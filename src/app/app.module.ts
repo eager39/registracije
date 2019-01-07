@@ -6,7 +6,7 @@ import { RouterModule} from '@angular/router';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
-import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {MatButtonModule} from '@angular/material/button';
 import { FormsModule }   from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -42,6 +42,10 @@ import { MatNativeDateModule } from '@angular/material/core';
     },
     {
       path:"dodaj/:id",
+      component:FormDodajComponent
+    },
+    {
+      path:"dodaj/:id/:delete",
       component:FormDodajComponent
     }
  ])
