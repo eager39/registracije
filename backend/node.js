@@ -1,10 +1,21 @@
 const express = require('express')
 var bodyParser = require("body-parser")
-var cors = require('cors');
-var nodemailer = require('nodemailer');
+var cors = require('cors')
+var nodemailer = require('nodemailer')
 var mysql = require('mysql')
-var schedule = require('node-schedule');
+var schedule = require('node-schedule')
 const app = express()
+var conf = require('./config')
+data = new conf()
+var config={}
+if(data.dev){
+  config.DBuser=data.dev.DBuser
+  config.DBpass=data.dev.DBpass
+}else{
+  config.DBuser=data.prod.DBuser
+  config.DBpass=data.prod.DBpass
+}
+
 
 
 var j = schedule.scheduleJob('0 0 0 * * *', function(){
@@ -112,8 +123,8 @@ transporter.sendMail({
 
 var connection = mysql.createConnection({
   host: 'localhost',
-  user: 'root', //registracije
-  password: '', //jf83d.dfDF8s
+  user: config.DBuser, 
+  password: config.DBpass, 
   database: 'registracije'
 })
 
@@ -145,7 +156,7 @@ var sql='SELECT id,avto,regst, FROM_UNIXTIME(regdo/1000,"%Y-%m-%d") as regdo,gum
 app.get('/data', function(req, res) {
 var start = new Date();
 var end  = start.setMonth(start.getDay()+3);
-    connection.query('SELECT id,avto,regst,regdo,gume,seen,opombe FROM avto', function(err, results) {
+    connection.query('SELECT id,avto,regst,regdo,gume,seen,opombe FROM avto where prikazi=1', function(err, results) {
       if (err) throw err
       var data = results;
       res.send(JSON.stringify(data));
@@ -202,9 +213,22 @@ app.post('/seen', function(req, res) {
      }
      
    });
-
-   
  });
 
+ app.post('/del', function(req, res) {
+  
+    
+  var sql2 = "UPDATE avto set prikazi=? WHERE id=?";
+  connection.query(sql2, [req.body.seen,req.body.id], function (err, result) {
+    if(!err){
+      res.send(true);
+    }else{
+      res.send(false);
+    }
+    
+  });
+
+  
+});
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'))

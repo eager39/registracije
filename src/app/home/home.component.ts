@@ -41,6 +41,7 @@ export class HomeComponent implements OnInit {
   zdaj;
   now;
   uspeh;
+  error;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -68,7 +69,7 @@ export class HomeComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.fullpage=this.avto_data.length;
-    });
+    }, error => this.error = error );
   }
 
   captureScreen()  
@@ -101,6 +102,26 @@ export class HomeComponent implements OnInit {
     {
         "id":id.id,
         "seen":id.seen
+    })
+    .subscribe(
+        (val) => {
+          this.getTours();
+          
+            console.log("POST call successful value returned in body", 
+                        val);
+        },
+        response => {
+          console.log("POST call in error", response);
+        },
+        () => {
+            console.log("The POST observable is now completed.");
+        });
+  }
+  skrij(id){
+    
+    this.http.post(this.baseUrl+"del",
+    {
+        "id":id.id,
     })
     .subscribe(
         (val) => {

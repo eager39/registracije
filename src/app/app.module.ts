@@ -30,7 +30,7 @@ import { MatNativeDateModule } from '@angular/material/core';
   imports: [BrowserModule,FormsModule,ReactiveFormsModule,MatButtonModule,MatSortModule,MatPaginatorModule,MatMenuModule,NoopAnimationsModule,HttpClientModule,MatTableModule,MatDatepickerModule,MatFormFieldModule,MatNativeDateModule,MatInputModule, RouterModule.forRoot([
     {
        path: 'home',
-       component: HomeComponent
+       component: HomeComponent,
     },
     {
       path:"dodaj",
