@@ -58,9 +58,9 @@ for(var i=0;i<length;i++){
  
   if(data[i].regdo==mesec){
     if(mesecd!=""){
-      mesecd+="<li>"+data[i].regst+"</li>";
+      mesecd+="<li>"+data[i].avto+": "+data[i].regst+"</li>";
    }else{
-     mesecd="<li>"+data[i].regst+"</li>";
+     mesecd="<li>"+data[i].avto+": "+data[i].regst+"</li>";
    }
  
    
@@ -70,18 +70,18 @@ for(var i=0;i<length;i++){
   if(data[i].regdo==dvatedna){
     console.log("hahaha");
     if(dvatednad!=""){
-      dvatednad+="<li>"+data[i].regst+"</li>";
+      dvatednad+="<li>"+data[i].avto+": "+data[i].regst+"</li>";
    }else{
-    dvatednad="<li>"+data[i].regst+"</li>";
+    dvatednad="<li>"+data[i].avto+": "+data[i].regst+"</li>";
    }
 
    
   }
   if(data[i].regdo==tridni){
     if(tridnid!=""){
-      tridnid+="<li>"+data[i].regst+"</li>";
+      tridnid+="<li>"+data[i].avto+": "+data[i].regst+"</li>";
    }else{
-     tridnid="<li>"+data[i].regst+"</li>";
+     tridnid="<li>"+data[i].avto+": "+data[i].regst+"</li>";
    }
   
     
@@ -156,7 +156,7 @@ var sql='SELECT id,avto,regst, FROM_UNIXTIME(regdo/1000,"%Y-%m-%d") as regdo,gum
 app.get('/data', function(req, res) {
 var start = new Date();
 var end  = start.setMonth(start.getDay()+3);
-    connection.query('SELECT id,avto,regst,regdo,gume,seen,opombe FROM avto where prikazi=1', function(err, results) {
+    connection.query('SELECT id,avto,regst,regdo,gume,seen,opombe FROM avto where prikazi=1 order by regdo asc', function(err, results) {
       if (err) throw err
       var data = results;
       res.send(JSON.stringify(data));
