@@ -69,7 +69,8 @@ export class HomeComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.fullpage=this.avto_data.length;
-    }, error => this.error = error );
+    }, error => (this.error = error,
+    console.log(this.error)) );
   }
 
   captureScreen()  

@@ -19,7 +19,17 @@ if(data.dev){
 
 
 var j = schedule.scheduleJob('0 0 0 * * *', function(){
-var transporter = nodemailer.createTransport("smtps://dobermailzlo%40gmail.com:"+encodeURIComponent('Krizanic1!') + "@smtp.gmail.com:465");
+var transporter = nodemailer.createTransport({
+  host: 'mail.setrans.si',
+  port: 465,
+  secure: true, // true for 465, false for other ports
+  auth: {
+    user: 'registracije-www@setrans.si', // your domain email address
+    pass: '' // your password
+  },tls: {
+    // do not fail on invalid certs
+    rejectUnauthorized: false
+  }})
 
 var today = new Date();
 today.setHours(12);
@@ -89,21 +99,26 @@ for(var i=0;i<length;i++){
   }
  
 }   
+
 mesec=new Date(mesec).toDateString();
 dvatedna=new Date(dvatedna).toDateString();
 tridni=new Date(tridni).toDateString();
 
 
 transporter.sendMail({       
-  sender: 'sender@sender.com',
-  to: 'zan_strong@hotmail.com',
-  subject: 'Attachment!',
+  sender: 'registracije-www@setrans.si',
+  to: 'maja@setrans.si,marjan@setrans.si',
+  subject: 'Registracija vozil',
   html: "<ul>Čez en mesec potečejo: "+mesec+mesecd+"</ul><ul> Čez dva tedna: "+dvatedna+dvatednad+"</ul><ul> in čez tri dni potečejo: "+tridni+tridnid+"</ul>"
  // attachments: [{'filename': 'attachment.txt', 'content': data}]
 }), function(err, success) {
   if (err) {
       console.log("error sending email"+err);
   }
+  if(success){
+    console.log("mail sent");
+  }
+  
 
 }
 
