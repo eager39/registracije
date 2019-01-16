@@ -25,7 +25,7 @@ var transporter = nodemailer.createTransport({
   secure: true, // true for 465, false for other ports
   auth: {
     user: 'registracije-www@setrans.si', // your domain email address
-    pass: 'etSD4jds#hesdioT' // your password
+    pass: '' // your password
   },tls: {
     // do not fail on invalid certs
     rejectUnauthorized: false
