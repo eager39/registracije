@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { HttpClient,HttpParams } from '@angular/common/http'; 
-import { ActivatedRoute, ActivationEnd } from '@angular/router';
+import { ActivatedRoute,Router, ActivationEnd } from '@angular/router';
 import { routerNgProbeToken } from '@angular/router/src/router_module';
 import { environment } from '../../environments/environment';
 import { Alert } from 'selenium-webdriver';
@@ -20,7 +20,7 @@ export class FormDodajComponent implements OnInit {
   avto_edit_data;
   uspeh;
 
-  constructor(private http: HttpClient,private route: ActivatedRoute) { }
+  constructor(private http: HttpClient,private route: ActivatedRoute,private router: Router,) { }
   registracije = new FormGroup({
     avto: new FormControl(''),
     stevilka: new FormControl(''),
@@ -33,10 +33,10 @@ export class FormDodajComponent implements OnInit {
     if(this.route.params){
     this.sub = this.route.params.subscribe(params => {
       this.id = params['id'];
-      this.delete=params["delete"];
+      this.delete=params["del"];
     
-      if(this.delete!=undefined){
-        alert("zbrisano");
+      if(this.delete=="delete"){
+        this.skrij(this.id)
       }
   
       if(this.id){
@@ -62,8 +62,7 @@ export class FormDodajComponent implements OnInit {
     var form=this.registracije.value; console.log(form);
     if(form.avto!="" && form.stevilka&&  form.datum!=""){
      var datum=new Date(form.datum);
-     
-    //datum.setMinutes( datum.getMinutes() + datum.getTimezoneOffset()+60 );
+    
     datum.setHours(12);
     datum.setMinutes(0);
     datum.setSeconds(0);
@@ -100,6 +99,29 @@ export class FormDodajComponent implements OnInit {
             console.log("The POST observable is now completed.");
         });
   }
+}
+skrij(id){
+    
+  this.http.post(this.baseUrl+"del",
+  {
+      "id":id,
+  })
+  .subscribe(
+      (val) => {
+        if(val){
+          alert("Uspešno izbrisano!")
+          this.router.navigate(['/home'])
+        }
+        
+        
+        
+      },
+      response => {
+        console.log("POST call in error", response);
+      },
+      () => {
+          console.log("The POST observable is now completed.");
+      });
 }
   
 

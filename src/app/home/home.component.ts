@@ -118,25 +118,6 @@ export class HomeComponent implements OnInit {
             console.log("The POST observable is now completed.");
         });
   }
-  skrij(id){
-    
-    this.http.post(this.baseUrl+"del",
-    {
-        "id":id.id,
-    })
-    .subscribe(
-        (val) => {
-          this.getTours();
-          
-            console.log("POST call successful value returned in body", 
-                        val);
-        },
-        response => {
-          console.log("POST call in error", response);
-        },
-        () => {
-            console.log("The POST observable is now completed.");
-        });
-  }
+
 
 }

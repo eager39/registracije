@@ -25,7 +25,7 @@ var transporter = nodemailer.createTransport({
   secure: true, // true for 465, false for other ports
   auth: {
     user: 'registracije-www@setrans.si', // your domain email address
-    pass: '' // your password
+    pass: 'etSD4jds#hesdioT' // your password
   },tls: {
     // do not fail on invalid certs
     rejectUnauthorized: false
@@ -233,8 +233,8 @@ app.post('/seen', function(req, res) {
  app.post('/del', function(req, res) {
   
     
-  var sql2 = "UPDATE avto set prikazi=? WHERE id=?";
-  connection.query(sql2, [req.body.seen,req.body.id], function (err, result) {
+  var sql2 = "UPDATE avto set prikazi=0 WHERE id=?";
+  connection.query(sql2, [req.body.id], function (err, result) {
     if(!err){
       res.send(true);
     }else{

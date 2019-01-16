@@ -45,7 +45,7 @@ import { MatNativeDateModule } from '@angular/material/core';
       component:FormDodajComponent
     },
     {
-      path:"dodaj/:id/:delete",
+      path:"dodaj/:id/:del",
       component:FormDodajComponent
     }
  ])

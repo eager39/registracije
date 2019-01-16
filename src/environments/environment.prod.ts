@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  baseUrl: '//registracije.setrans.si:3000/' 
+  baseUrl: '//registracije.setrans.si:3001/' 
 };
 
