@@ -22,10 +22,10 @@ var j = schedule.scheduleJob('0 0 0 * * *', function(){
 var transporter = nodemailer.createTransport({
   host: 'mail.setrans.si',
   port: 465,
-  secure: true, // true for 465, false for other ports
+  secure: true, 
   auth: {
-    user: 'registracije-www@setrans.si', // your domain email address
-    pass: '' // your password
+    user: 'registracije-www@setrans.si', 
+    pass: '' 
   },tls: {
     // do not fail on invalid certs
     rejectUnauthorized: false
@@ -59,7 +59,7 @@ tridni.setTime( tridni.getTime() + tridni.getTimezoneOffset()*60*1000 );
  mesec  = mesec.setMonth(mesec.getMonth() + 1 );
  dvatedna  = dvatedna.setDate(dvatedna.getDate() + 14 );
  tridni  = tridni.setDate(tridni.getDate() + 3 );
-    connection.query('SELECT id,avto,regst,regdo,seen,opombe,gume FROM avto', function(err, results) {
+    connection.query('SELECT id,avto,regst,regdo,seen,opombe,gume FROM avto WHERE prikazi=1', function(err, results) {
       if (err) throw err
       var data = results;
       var length = Object.keys(data).length;
@@ -99,18 +99,34 @@ for(var i=0;i<length;i++){
   }
  
 }   
+if(mesecd==""){
+  
+  mesecd="<li>Ni potekle registracije</li>"
+ 
+}
+if(dvatednad==""){
+  dvatednad="<li>Ni potekle registracije</li>"
+  
+}
+if(tridnid==""){
+
+  tridnid="<li>Ni potekle registracije</li>"
+}
 
 mesec=new Date(mesec).toDateString();
 dvatedna=new Date(dvatedna).toDateString();
 tridni=new Date(tridni).toDateString();
 
+if(mesecd!="<li>Ni potekle registracije</li>" || dvatednad!="<li>Ni potekle registracije</li>" || tridnid!="<li>Ni potekle registracije</li>"){
 
+
+  
 transporter.sendMail({       
   sender: 'registracije-www@setrans.si',
   to: 'maja@setrans.si,marjan@setrans.si',
   subject: 'Registracija vozil',
   html: "<ul>Čez en mesec potečejo: "+mesec+mesecd+"</ul><ul> Čez dva tedna: "+dvatedna+dvatednad+"</ul><ul> in čez tri dni potečejo: "+tridni+tridnid+"</ul>"
- // attachments: [{'filename': 'attachment.txt', 'content': data}]
+ 
 }), function(err, success) {
   if (err) {
       console.log("error sending email"+err);
@@ -122,7 +138,10 @@ transporter.sendMail({
 
 }
 
-  
+  }else{
+    console.log("ni poteklih registracij")
+   
+  }
        
       
   
