@@ -20,12 +20,14 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { FormDodajComponent } from './form-dodaj/form-dodaj.component';
 import { MatNativeDateModule } from '@angular/material/core';
+import { PrometnaComponent } from './prometna/prometna.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    FormDodajComponent
+    FormDodajComponent,
+    PrometnaComponent
   ],
   imports: [BrowserModule,FormsModule,ReactiveFormsModule,MatButtonModule,MatSortModule,MatPaginatorModule,MatMenuModule,NoopAnimationsModule,HttpClientModule,MatTableModule,MatDatepickerModule,MatFormFieldModule,MatNativeDateModule,MatInputModule, RouterModule.forRoot([
     {
@@ -35,6 +37,10 @@ import { MatNativeDateModule } from '@angular/material/core';
     {
       path:"dodaj",
       component:FormDodajComponent
+    },
+    {
+      path:"prometna",
+      component:PrometnaComponent
     },
     {
       path:"",

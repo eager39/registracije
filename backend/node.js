@@ -159,7 +159,8 @@ var connection = mysql.createConnection({
   host: 'localhost',
   user: config.DBuser, 
   password: config.DBpass, 
-  database: 'registracije'
+  database: 'registracije',
+  multipleStatements: true,
 })
 
 
@@ -199,6 +200,33 @@ var end  = start.setMonth(start.getDay()+3);
     console.log("Error: " + err);
   
 });
+app.get('/prometna_dovoljenja', function(req, res) {
+  var data=[]
+  var start = new Date();
+  var end  = start.setMonth(start.getDay()+3);
+      connection.query('SELECT * FROM avto  where prikazi=1 order by regdo asc', function(err, results) {
+       
+     
+        if(results){ 
+          data.push(results);
+          connection.query('SELECT * FROM dovoljenja INNER JOIN avto on avto.id=dovoljenja.id_prikolica ', function(err, results2) {
+      
+        
+            if(results2){ 
+               data.push(results2);
+               res.send(JSON.stringify(data));
+            }
+           
+          });
+        }
+      
+      
+        
+      });
+    }, err => {
+      console.log("Error: " + err);
+    
+  });
 
 
 
@@ -265,4 +293,4 @@ app.post('/seen', function(req, res) {
   
 });
 
-app.listen(3000, () => console.log('Example app listening on port 3000!'))
+app.listen(3001, () => console.log('Example app listening on port 3000!'))

@@ -1,0 +1,69 @@
+<h3>Legenda:</h3>
+<button style="background-Color: rgb(255, 119, 29)">Registracija poteče v manj kot 30 dni </button>
+<button style="background-Color:#2ECC40">Registracija se ni potekla</button>
+<button style="background-Color:#FF4136">Registracija je potekla</button>
+<button style="background-Color:rgb(255, 229, 61)">Videno</button>
+
+
+
+
+<mat-form-field>
+  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Isci">
+</mat-form-field>
+<table id="pdf" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+<ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+   <th mat-header-cell *matHeaderCellDef mat-sort-header> {{column}} </th>
+<ng-container *ngIf="check2(column)"> 
+  <td mat-cell *matCellDef="let element;let i = index;" [ngClass]="{'dobro' : element[column]  > zdaj  , 'slabo' :element[column] <= zdaj && element.seen==0 ,'videno': element.seen==1,'poteklo': element[column] < now}" >  <button md-raised-button (click)="markAsSeen(element)" >videno</button><button md-raised-button [routerLink]="['/dodaj', element.id]"  >Uredi</button> </td>
+</ng-container>
+   
+    <ng-container *ngIf="check(column)"> 
+    <td mat-cell *matCellDef="let element;let i = index;" [ngClass]="{'dobro' : element[column]  > zdaj  , 'slabo' : element[column] <= zdaj && element.seen==0 ,'videno': element.seen==1,'poteklo': element[column] < now}" > {{element[column]}} </td>
+</ng-container>
+<ng-container *ngIf="!check(column)"> 
+  <td mat-cell *matCellDef="let element;let i = index;" [ngClass]="{'dobro' : element[column]  > zdaj  , 'slabo' : element[column] <= zdaj && element.seen==0 ,'videno': element.seen==1,'poteklo': element[column] < now}" > {{element[column]  | date:longDate}} </td>
+</ng-container>
+
+</ng-container>
+
+  <!-- <ng-container matColumnDef="avto">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Avto </th>
+    <td mat-cell *matCellDef="let element;let i = index;" [ngClass]="{'dobro' : element.regdo  > zdaj  , 'slabo' : element.regdo <= zdaj && element.seen==0 ,'videno': element.seen==1,'poteklo': element.regdo < now}" > {{element.avto}} </td>
+  </ng-container>
+
+ 
+  <ng-container matColumnDef="regst">
+    <th mat-header-cell *matHeaderCellDef> Registrska številka </th>
+    <td mat-cell *matCellDef="let element;let i = index;" [ngClass]="{'dobro' : element.regdo  > zdaj  , 'slabo' : element.regdo <= zdaj && element.seen==0,'videno': element.seen==1,'poteklo': element.regdo < now }" > {{element.regst}} </td>
+  </ng-container>
+
+
+  
+  <ng-container *ngFor="let column of displayedColumns">{{column}}</ng-container>
+  <ng-container matColumnDef="sl">
+    
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>SL </th>
+    <td mat-cell *matCellDef="let element;let i = index;"  [ngClass]="{'dobro' : element.regdo  > zdaj  , 'slabo' : element.regdo <= zdaj && element.seen==0,'videno': element.seen==1,'poteklo': element.regdo < now }"> {{element.velja_do | date:longDate}} </td>
+  </ng-container>
+  <ng-container matColumnDef="D">
+      <th mat-header-cell *matHeaderCellDef>D </th>
+      <td mat-cell *matCellDef="let element;let i = index;" [ngClass]="{'dobro' : element.regdo  > zdaj  , 'slabo' : element.regdo <= zdaj && element.seen==0,'videno': element.seen==1 ,'poteklo': element.regdo < now}">{{element.velja_do}}</td>
+    </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Uredi </th>
+    <td mat-cell *matCellDef="let element;let i = index;" [ngClass]="{'dobro' : element.regdo  > zdaj  , 'slabo' : element.regdo <= zdaj && element.seen==0 ,'videno': element.seen==1,'poteklo': element.regdo < now}" >  <button md-raised-button (click)="markAsSeen(element)" >videno</button><button md-raised-button [routerLink]="['/dodaj', element.id]"  >Uredi</button> </td>
+  </ng-container> -->
+   
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row  *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+<mat-paginator [pageSizeOptions]="[100]" showFirstLastButtons></mat-paginator>
+<div>   
+  <input type="button" value="Izvozi sliko v pdf" (click)="captureScreen()"/>  
+</div>  
+
+
+
